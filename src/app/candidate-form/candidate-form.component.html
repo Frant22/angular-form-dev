@@ -1,0 +1,100 @@
+<form
+  action="#"
+  class="form container form-group"
+  [formGroup]="candidateForm"
+  (ngSubmit)="onSubmit()"
+>
+  <label for="firstName" class="form-row">
+    Name:
+  </label>
+  <input
+    class="form-control"
+    id="firstName"
+    type="text"
+    formControlName="firstName"
+  >
+
+  <label for="lastName" class="form-row">
+    Lastname:
+  </label>
+  <input
+    class="form-control"
+    id="lastName"
+    type="text"
+    formControlName="lastName"
+  >
+
+  <label for="dateOfBirth" class="form-row">
+    Date of birth:
+  </label>
+  <input
+    class="form-control"
+    id="dateOfBirth"
+    type="date"
+    formControlName="dateOfBirth"
+    required
+  >
+
+  <label for="jsTechnology" class="form-row">
+    Framework:
+  </label>
+  <input
+    class="form-control"
+    id="jsTechnology"
+    type="text"
+    formControlName="jsTechnology"
+    required
+  >
+
+  <div class="form-group">
+    <label for="technologyVersion" class="form-row">
+      Framework vervion:
+    </label>
+    <select
+      class="form-control"
+      id="technologyVersion"
+      required
+    >
+      <option *ngFor="let framework of technologies" [value]="pow">{{pow}}</option>
+    </select>
+  </div>
+
+  <label for="email" class="form-row">
+    Email:
+  </label>
+  <input
+    class="form-control"
+    id="email"
+    type="text"
+    formControlName="email"
+    required
+  >
+
+  <fieldset class="form-hobby" formGroupName="hobby">
+    <label for="hobby" class="form-row">
+      Name of hobby:
+      <input
+        class="form-control"
+        id="hobby"
+        type="text"
+        formControlName="nameOfHobby"
+        required
+      >
+    </label>
+    
+    <label for="hobbyExpirience" class="form-row">
+      Expirience:
+      <input
+        class="form-control"
+        id="hobbyExpirience"
+        type="text"
+        formControlName="hobbyExpirience"
+        required
+      >
+    </label>
+  </fieldset>
+
+  <button type="submit" class="btn">
+    Send form
+  </button>
+</form>
