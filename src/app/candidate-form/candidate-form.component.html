@@ -32,32 +32,44 @@
     id="dateOfBirth"
     type="date"
     formControlName="dateOfBirth"
-    required
   >
 
   <label for="jsTechnology" class="form-row">
     Framework:
   </label>
-  <input
-    class="form-control"
-    id="jsTechnology"
-    type="text"
-    formControlName="jsTechnology"
-    required
-  >
-
-  <div class="form-group">
-    <label for="technologyVersion" class="form-row">
-      Framework vervion:
-    </label>
-    <select
+  <select
       class="form-control"
-      id="technologyVersion"
-      required
+      id="jsTechnology"
+      formControlName="jsTechnology"
+      [ngModel]="selectedFramework"
+      (ngModelChange)="onChange($event)"
     >
-      <option *ngFor="let framework of technologies" [value]="pow">{{pow}}</option>
+    <option value="" disabled>Select framework</option>
+    <option
+      *ngFor="let framework of technologies | keyvalue"
+      [ngValue]="framework.key"
+    >
+      {{framework.key}}
+    </option>
     </select>
-  </div>
+
+    <div class="version" *ngIf="selectedFramework">
+      <label for="technologyVersion" class="form-row">
+        Framework vervion:
+      </label>
+      <select
+        class="form-control"
+        id="technologyVersion"
+        formControlName="technologyVersion"
+      >
+      <option
+        *ngFor="let versions of technologies.Angular | keyvalue"
+        [value]="versions.value"
+      >
+        {{versions.value}}
+      </option>
+      </select>
+    </div>
 
   <label for="email" class="form-row">
     Email:
@@ -67,7 +79,6 @@
     id="email"
     type="text"
     formControlName="email"
-    required
   >
 
   <fieldset class="form-hobby" formGroupName="hobby">
@@ -78,7 +89,6 @@
         id="hobby"
         type="text"
         formControlName="nameOfHobby"
-        required
       >
     </label>
     
@@ -89,7 +99,6 @@
         id="hobbyExpirience"
         type="text"
         formControlName="hobbyExpirience"
-        required
       >
     </label>
   </fieldset>

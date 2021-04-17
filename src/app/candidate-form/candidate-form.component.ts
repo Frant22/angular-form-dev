@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-candidate-form',
@@ -9,20 +9,22 @@ import { FormControl, FormGroup } from '@angular/forms';
 export class CandidateFormComponent {
 
   technologies = {
-    angular: ['1.1.1', '1.2.1', '1.3.3'],
-    react: ['2.1.2', '3.2.4', '4.3.1'],
-    vue: ['3.3.1', '5.2.1', '5.1.3']
+    Angular: ['1.1.1', '1.2.1', '1.3.3'],
+    React: ['2.1.2', '3.2.4', '4.3.1'],
+    Vue: ['3.3.1', '5.2.1', '5.1.3']
   }
 
-  submitted = false;
-    
+  hasSubmitted = false;
+
+  selectedFramework!: string;
+ 
   candidateForm = new FormGroup({
-    firstName: new FormControl(''),
-    lastName: new FormControl(''),
+    firstName: new FormControl(),
+    lastName: new FormControl(),
     dateOfBirth: new FormControl(),
     jsTechnology: new FormControl(),
     technologyVersion: new FormControl(),
-    email: new FormControl(''),
+    email: new FormControl(),
     hobby: new FormGroup({
       nameOfHobby: new FormControl(),
       hobbyExpirience: new FormControl()
@@ -30,8 +32,13 @@ export class CandidateFormComponent {
   });
 
   onSubmit(){
-    this.submitted = true;
+    this.hasSubmitted = true;
     console.log(this.candidateForm.value);
+  }
+
+  onChange(framework: string) {
+    this.selectedFramework = framework;
+    console.log(this.selectedFramework);
   }
 }
 
