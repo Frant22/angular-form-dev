@@ -12,9 +12,24 @@
     align-items: center;
   }
 
+  &-calendar {
+    position: relative;
+  }
+
   &-hobby {
     display: flex;
     flex-direction: column;
     gap: 1rem;
   }
+}
+
+
+.toggle {
+  position: absolute;
+  right: 0;
+  top: 1.5rem;
+}
+
+.alert {
+  height: 50px;
 }
