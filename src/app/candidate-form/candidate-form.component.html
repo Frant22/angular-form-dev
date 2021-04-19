@@ -19,7 +19,7 @@
   >
   <span
     class="alert alert-danger" 
-    *ngIf="_firstName?.errors?.required && (_firstName?.touched || _firstName?.dirty)"
+    *ngIf="firstName.getError('required') && (firstName.touched || firstName.dirty)"
   >
     Name is required
   </span>
@@ -37,7 +37,7 @@
   >
   <span
     class="alert alert-danger"
-    *ngIf="_lastName?.errors?.required && (_lastName?.touched || _lastName?.dirty)"
+    *ngIf="lastName.getError('required') && (lastName.touched || lastName.dirty)"
   >
     Surname is required
   </span>
@@ -57,10 +57,10 @@
     <mat-datepicker-toggle class="toggle" matSuffix [for]="picker"></mat-datepicker-toggle>
   </mat-form-field>
   <mat-error
-    class="alert alert-danger" 
-    *ngIf="_dateOfBirth?.errors?.required && (_dateOfBirth?.touched || _dateOfBirth?.dirty)"
+    class="alert alert-danger"
+    *ngIf="dateOfBirth.getError('required') && (dateOfBirth.touched || dateOfBirth.dirty)"
   >
-    Date of birth required.
+    Date of birth is required.
   </mat-error>
   
   <label for="jsTechnology" class="form-row">
@@ -82,10 +82,9 @@
       {{framework.key}}
     </option>
   </select>
-
   <span
     class="alert alert-danger"
-    *ngIf="_jsTechnology?.errors?.required && _jsTechnology?.touched"
+    *ngIf="jsTechnology.getError('required') && jsTechnology.touched"
   >
     Select framework!
   </span>
@@ -109,10 +108,9 @@
       </option>
     </select>
   </div>
-
   <span
     class="alert alert-danger"
-    *ngIf="_technologyVersion?.errors?.required && _technologyVersion?.touched"
+    *ngIf="technologyVersion.getError('required') && technologyVersion.touched"
   >
     Select versions!
   </span>
@@ -126,8 +124,21 @@
     id="email"
     type="text"
     formControlName="email"
+    email
     required
   >
+  <span
+    class="alert alert-danger"
+    *ngIf="email.getError('required') && email.touched"
+  >
+    Email is required!
+  </span>
+  <span
+    class="alert alert-danger"
+    *ngIf="email.getError('email') && email.touched"
+  >
+    Email is invalid!
+  </span>
 
   <label for="hobby" class="form-row">
     Name of hobby:

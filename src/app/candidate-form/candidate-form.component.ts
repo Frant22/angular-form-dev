@@ -8,7 +8,6 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 })
 
 export class CandidateFormComponent {
-
   technologies: any = {
     Angular: ['1.1.1', '1.2.1', '1.3.3'],
     React: ['2.1.2', '3.2.4', '4.3.1'],
@@ -16,14 +15,12 @@ export class CandidateFormComponent {
   }
 
   hasSubmitted = false;
-  isSelected = true;
 
-  selectedFramework!: string;
+  selectedFramework: string | undefined;
   
-
   candidateForm = new FormGroup({
     firstName: new FormControl('', Validators.required),
-    lastName: new FormControl(),
+    lastName: new FormControl('', Validators.required),
     dateOfBirth: new FormControl('', Validators.required),
     jsTechnology: new FormControl('', Validators.required),
     technologyVersion: new FormControl(),
@@ -41,24 +38,28 @@ export class CandidateFormComponent {
     this.selectedFramework = event.target.value;
   }
 
-  get _firstName() {
-    return this.candidateForm.get('firstName');
+  get firstName() {
+    return this.candidateForm.controls.firstName;
   }
 
-  get _lastName() {
-    return this.candidateForm.get('lastName');
+  get lastName() {
+    return this.candidateForm.controls.lastName;
   }
 
-  get _dateOfBirth() {
-    return this.candidateForm.get('dateOfBirth');
+  get dateOfBirth() {
+    return this.candidateForm.controls.dateOfBirth;
   }
 
-  get _jsTechnology() {
-    return this.candidateForm.get('jsTechnology');
+  get jsTechnology() {
+    return this.candidateForm.controls.jsTechnology;
   }
 
-  get _technologyVersion() {
-    return this.candidateForm.get('technologyVersion');
+  get technologyVersion() {
+    return this.candidateForm.controls.technologyVersion;
+  }
+
+  get email() {
+    return this.candidateForm.controls.email;
   }
 }
 
