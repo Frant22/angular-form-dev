@@ -139,30 +139,46 @@
   >
     Email is invalid!
   </span>
+  <span
+    class="alert alert-danger"
+    *ngIf="email.getError('emailExists')"
+  >
+    Email is already exist!
+  </span>
 
-  <label for="hobby" class="form-row">
-    Name of hobby:
-  </label>
-  <input
-    name="hobby"
-    class="form-control"
-    id="hobby"
-    type="text"
-    formControlName="nameOfHobby"
-    required
+  <div formGroupName="hobby">
+    <label for="name" class="form-row">
+      Name of hobby:
+    </label>
+    <input
+      name="hobby"
+      class="form-control"
+      id="hobby"
+      type="text"
+      formControlName="name"
+      required
+    >
+
+    <label for="duration" class="form-row">
+      Expirience:
+    </label>
+    <input
+      name="hobbyExpirience"
+      class="form-control"
+      id="hobbyExpirience"
+      type="text"
+      formControlName="duration"
+      required
+    >
+  </div>
+
+  <span
+    class="alert alert-danger"
+    *ngIf="(name.getError('required') && name.touched)
+      || (duration.getError('required') && duration.touched)"
   >
-  
-  <label for="hobbyExpirience" class="form-row">
-    Expirience:
-  </label>
-  <input
-    name="hobbyExpirience"
-    class="form-control"
-    id="hobbyExpirience"
-    type="text"
-    formControlName="hobbyExpirience"
-    required
-  >
+  Hobby info required.
+</span>
 
   <button type="submit" class="btn btn-default">
     Send form
