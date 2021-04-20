@@ -1,9 +1,13 @@
+<h1 [hidden]="hasSubmitted">
+  Dear candidate, fill the form below:
+</h1>
 <form
   action="#"
   name="candidateForm"
   class="form container form-group"
   [formGroup]="candidateForm"
   (ngSubmit)="onSubmit()"
+  [hidden]="hasSubmitted"
   novalidate
 >
   <label for="firstName" class="form-row control-label">
@@ -18,14 +22,14 @@
     required
   >
   <span
-    class="alert alert-danger" 
+    class="alert alert-danger"
     *ngIf="firstName.getError('required') && (firstName.touched || firstName.dirty)"
   >
     Name is required
   </span>
 
   <label for="lastName" class="form-row">
-    Lastname:
+    Last name:
   </label>
   <input
     name="lastName"
@@ -39,7 +43,7 @@
     class="alert alert-danger"
     *ngIf="lastName.getError('required') && (lastName.touched || lastName.dirty)"
   >
-    Surname is required
+    Last name is required
   </span>
 
   <mat-form-field appearance="fill" class="form-calendar">
@@ -54,7 +58,7 @@
       required
     >
     <mat-datepicker #picker></mat-datepicker>
-    <mat-datepicker-toggle class="toggle" matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker-toggle class="form-toggle" matSuffix [for]="picker"></mat-datepicker-toggle>
   </mat-form-field>
   <mat-error
     class="alert alert-danger"
@@ -147,40 +151,59 @@
   </span>
 
   <div formArrayName="hobbies">
-    <div *ngFor="let hobby of hobbies.controls; let i=index">
-      <div [formGroupName]="i">
-        {{i}}
-        <label for="name" class="form-row">
-          Hobby name
-        </label>
-        <input
-          id="name"
-          type="text"
-          formControlName="name"
-        >
-        <label for="duration" class="form-row">
-          Experience
-        </label>
-        <input
-          id="duration"
-          type="text"
-          formControlName="duration"
-        >
-
-        <button type="button" (click)="addNewHobby()">Add</button>
-        <button (click)="removeHobby(i)">Remove</button>
+    <fieldset class="form-hobby">
+      <div *ngFor="let hobby of hobbies.controls; let i=index">
+        <div [formGroupName]="i">
+          <label for="name" class="form-row">
+            &nbsp; Hobby name
+          </label>
+          <input
+            id="name"
+            type="text"
+            class="form-control"
+            formControlName="name"
+          >
+          <label for="duration" class="form-row">
+            &nbsp; Experience
+          </label>
+          <input
+            id="duration"
+            class="form-control"
+            type="text"
+            formControlName="duration"
+          >
+        </div>
+        <br>
+        <button (click)="removeHobby(i)" class="btn btn-danger btn-sm">
+          Remove hobby
+        </button>
       </div>
-    </div>
+    </fieldset>
   </div>
-
-  <!-- <span
-    class="alert alert-danger"
-    *ngIf="(name.getError('required')) && name.touched"
+  <span
+    class="alert alert-warning"
+    *ngIf="hobbies.getError('hobbyExist')"
   >
     Hobby info required.
-  </span> -->
+  </span>
 
-  <button type="submit" class="btn btn-default">
+  <button
+    type="button"
+    class="btn btn-info btn-sm"
+    (click)="addNewHobby()"
+  >
+      Add hobby
+  </button>
+
+  <button
+    type="submit"
+    class="btn btn-primary"
+    [disabled]="!candidateForm.valid"
+  >
     Send form
   </button>
 </form>
+
+<div class="alert alert-success" *ngIf="hasSubmitted">
+  Form successfully sent!
+</div>

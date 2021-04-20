@@ -4,7 +4,7 @@
   justify-content: space-between;
   gap: .5rem;
 
-  max-width: 30vw;
+  width: 25vw;
 
   &-row {
     display: flex;
@@ -16,20 +16,21 @@
     position: relative;
   }
 
+  &-toggle {
+    position: absolute;
+    right: 0;
+    top: 1.5rem;
+  }
+
   &-hobby {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
+    background-color: rgb(240, 240, 240);
+    border-radius: 5px;
   }
 }
 
-
-.toggle {
-  position: absolute;
-  right: 0;
-  top: 1.5rem;
+.alert-success {
+  position: relative;
+  top: 20vh;
 }
 
-.alert {
-  height: 50px;
-}
+

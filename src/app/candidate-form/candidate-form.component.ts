@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators, AbstractControl, ValidationErrors, FormArray, FormArrayName } from '@angular/forms';
+import { FormControl, FormGroup, Validators, AbstractControl, ValidationErrors, FormArray } from '@angular/forms';
 import { Observable, of } from 'rxjs';
 import { delay, map } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
@@ -22,48 +22,10 @@ export class CandidateFormComponent implements OnInit {
   emails: Array<string> = [];
   HttpClient: string | undefined;
 
-  ngOnInit(){
-    this.httpClient.get('assets/email.json').subscribe((email: any) =>{
+  ngOnInit() {
+    this.httpClient.get('assets/email.json').subscribe((email: any) => {
       this.emails = email;
-    })
-  }
-
-  candidateForm = new FormGroup({
-    firstName: new FormControl('', Validators.required),
-    lastName: new FormControl('', Validators.required),
-    dateOfBirth: new FormControl('', Validators.required),
-    jsTechnology: new FormControl('', Validators.required),
-    technologyVersion: new FormControl('', Validators.required),
-    email: new FormControl('', Validators.required, [this.emailAsyncValidator.bind(this)]),
-    hobbies: new FormArray([])
-  });
-
-  selectedFramework: string | undefined;
-
-  addNewHobby() {
-    const hobby = new FormGroup({
-      name: new FormControl('', Validators.required),
-      duration: new FormControl('', Validators.required)
-    })
-
-    this.hobbies.push(hobby)
-  }
-
-  removeHobby(hobbyIndex:number) {
-    this.hobbies.removeAt(hobbyIndex);
-  }
-
-  onSubmit(): void {
-    this.hasSubmitted = true;
-    console.log(this.candidateForm.value);
-    }
-
-  onFrameworkChange(event: any): void {
-    this.selectedFramework = event.target.value;
-  }
-
-  checkIfEmailExist(email: string): Observable<boolean> {
-    return of(this.emails.includes(email)).pipe(delay(2000));
+    });
   }
 
   emailAsyncValidator(
@@ -76,12 +38,53 @@ export class CandidateFormComponent implements OnInit {
       );
     }
 
-  // validateHobby(arr: FormArray) {
-  //   return arr.length > 1 ? {
-  //     invalidSize: true
-  //   } : null;
-  // }
+  hobbyValidator = (min: number) => {
+    return (control: AbstractControl): {[key: string]: any} => {
+      if (control.value.length >= min) {
+        return null as any;
+      }
 
+      return { hobbyExist: true};
+    };
+  }
+
+  candidateForm = new FormGroup({
+    firstName: new FormControl('', Validators.required),
+    lastName: new FormControl('', Validators.required),
+    dateOfBirth: new FormControl('', Validators.required),
+    jsTechnology: new FormControl('', Validators.required),
+    technologyVersion: new FormControl('', Validators.required),
+    email: new FormControl('', Validators.required, [this.emailAsyncValidator.bind(this)]),
+    hobbies: new FormArray([], this.hobbyValidator(1))
+  });
+
+  selectedFramework: string | undefined;
+
+  addNewHobby(): void {
+    const hobby = new FormGroup({
+      name: new FormControl('', Validators.required),
+      duration: new FormControl('', Validators.required)
+    });
+
+    this.hobbies.push(hobby);
+  }
+
+  removeHobby(index: number): void {
+    this.hobbies.removeAt(index);
+  }
+
+  onSubmit(): void {
+    this.hasSubmitted = true;
+    this.candidateForm.reset();
+    }
+
+  onFrameworkChange(event: any): void {
+    this.selectedFramework = event.target.value;
+  }
+
+  checkIfEmailExist(email: string): Observable<boolean> {
+    return of(this.emails.includes(email)).pipe(delay(2000));
+  }
 
   get firstName(): any {
     return this.candidateForm.controls.firstName;
@@ -108,16 +111,8 @@ export class CandidateFormComponent implements OnInit {
   }
 
   get hobbies(): FormArray {
-    return this.candidateForm.get('hobby') as FormArray;
+    return this.candidateForm.get('hobbies') as FormArray;
   }
-
-  // get name(): any {
-  //   return this.candidateForm.get('name');
-  // }
-
-  // get duration(): any {
-  //   return this.candidateForm.get('duration');
-  // }
 
   hasSubmitted = false;
 }
