@@ -146,39 +146,39 @@
     Email is already exist!
   </span>
 
-  <div formGroupName="hobby">
-    <label for="name" class="form-row">
-      Name of hobby:
-    </label>
-    <input
-      name="hobby"
-      class="form-control"
-      id="hobby"
-      type="text"
-      formControlName="name"
-      required
-    >
+  <div formArrayName="hobbies">
+    <div *ngFor="let hobby of hobbies.controls; let i=index">
+      <div [formGroupName]="i">
+        {{i}}
+        <label for="name" class="form-row">
+          Hobby name
+        </label>
+        <input
+          id="name"
+          type="text"
+          formControlName="name"
+        >
+        <label for="duration" class="form-row">
+          Experience
+        </label>
+        <input
+          id="duration"
+          type="text"
+          formControlName="duration"
+        >
 
-    <label for="duration" class="form-row">
-      Expirience:
-    </label>
-    <input
-      name="hobbyExpirience"
-      class="form-control"
-      id="hobbyExpirience"
-      type="text"
-      formControlName="duration"
-      required
-    >
+        <button type="button" (click)="addNewHobby()">Add</button>
+        <button (click)="removeHobby(i)">Remove</button>
+      </div>
+    </div>
   </div>
 
-  <span
+  <!-- <span
     class="alert alert-danger"
-    *ngIf="(name.getError('required') && name.touched)
-      || (duration.getError('required') && duration.touched)"
+    *ngIf="(name.getError('required')) && name.touched"
   >
-  Hobby info required.
-</span>
+    Hobby info required.
+  </span> -->
 
   <button type="submit" class="btn btn-default">
     Send form

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
+import { FormControl, FormGroup, Validators, AbstractControl, ValidationErrors, FormArray, FormArrayName } from '@angular/forms';
 import { Observable, of } from 'rxjs';
 import { delay, map } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
@@ -35,13 +35,23 @@ export class CandidateFormComponent implements OnInit {
     jsTechnology: new FormControl('', Validators.required),
     technologyVersion: new FormControl('', Validators.required),
     email: new FormControl('', Validators.required, [this.emailAsyncValidator.bind(this)]),
-    hobby: new FormGroup({
-      name: new FormControl('', Validators.required),
-      duration: new FormControl('', Validators.required)
-    })
+    hobbies: new FormArray([])
   });
 
   selectedFramework: string | undefined;
+
+  addNewHobby() {
+    const hobby = new FormGroup({
+      name: new FormControl('', Validators.required),
+      duration: new FormControl('', Validators.required)
+    })
+
+    this.hobbies.push(hobby)
+  }
+
+  removeHobby(hobbyIndex:number) {
+    this.hobbies.removeAt(hobbyIndex);
+  }
 
   onSubmit(): void {
     this.hasSubmitted = true;
@@ -65,6 +75,12 @@ export class CandidateFormComponent implements OnInit {
         })
       );
     }
+
+  // validateHobby(arr: FormArray) {
+  //   return arr.length > 1 ? {
+  //     invalidSize: true
+  //   } : null;
+  // }
 
 
   get firstName(): any {
@@ -91,13 +107,17 @@ export class CandidateFormComponent implements OnInit {
     return this.candidateForm.controls.email;
   }
 
-  get name(): any {
-    return this.candidateForm.get('hobby.name');
+  get hobbies(): FormArray {
+    return this.candidateForm.get('hobby') as FormArray;
   }
 
-  get duration(): any {
-    return this.candidateForm.get('hobby.duration');
-  }
+  // get name(): any {
+  //   return this.candidateForm.get('name');
+  // }
+
+  // get duration(): any {
+  //   return this.candidateForm.get('duration');
+  // }
 
   hasSubmitted = false;
 }
